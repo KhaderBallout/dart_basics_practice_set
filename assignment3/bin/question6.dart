@@ -16,6 +16,9 @@ void main(s) {
   else if (username == 'guest' && password == 'user@123' && userRole == 'user') {
     print('Welcome Guest! Limited access granted.');
   }
+  else if (username == 'guest' && password == 'user@123' && userRole != 'user') {
+    print('Access denied: User role required.');
+  }
   else if ((username == 'manager' && password != 'admin@123') || (username == 'guest' && password != 'user@123')) {
     print('Incorrect password. Try again.');
   }

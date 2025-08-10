@@ -2,12 +2,10 @@ import 'package:project1/models/team.dart';
 import 'package:project1/models/referee.dart';
 import 'package:project1/models/stadium.dart';
 
-
 class Game {
   List<Team> _teamList;
   Referee _gameReferee;
   Stadium _gameStadium;
-  String _result = '';
 
   // Constructor
   Game({
@@ -22,7 +20,6 @@ class Game {
   List<Team> get teamList => _teamList;
   Referee get gameReferee => _gameReferee;
   Stadium get gameStadium => _gameStadium;
-  String get result => _result;
 
   // Setters
   set teamList(List<Team> teams) => _teamList = teams;
@@ -37,27 +34,34 @@ class Game {
   }
 
   // Simulate match logic
-  void simulationLogic() {
-    double team1Skill = _teamList[0].teamReputation + _gameReferee.experience;
-    double team2Skill = _teamList[1].teamReputation + _gameReferee.experience;
+  void simulateMatch() {
+    Team teamA = _teamList[0];
+    Team teamB = _teamList[1];
 
-    // Adjust for referee bias
-    if (_gameReferee.bribed) {
-      team2Skill += 10; // Give advantage to team2
+    double teamAScore = teamA.totalTeamPower();
+    double teamBScore = teamB.totalTeamPower();
+
+    if(gameReferee.bribed){
+      teamAScore = teamAScore + 20; 
     }
 
-    if (team1Skill > team2Skill) {
-      _result = '${_teamList[0].teamName} wins';
-    } else if (team2Skill > team1Skill) {
-      _result = '${_teamList[1].teamName} wins';
+    print('--- MATCH REPORT ---');
+    print('Stadium: ${gameStadium.stadiumName}');
+    print('Location: ${gameStadium.location}, Capacity: ${gameStadium.capacity}');
+    print('Referee: ${_gameReferee.name} (Experience: ${_gameReferee.experience.toStringAsFixed(1)}, Bribed: ${_gameReferee.bribed})');
+
+    print('${teamA.teamName} vs ${teamB.teamName}');
+    print('${teamA.trainer.name} strategy: ${teamA.trainer.strategy}');
+    print('${teamB.trainer.name} strategy: ${teamB.trainer.strategy}');
+    print('${teamA.teamName} Power: ${teamAScore.toStringAsFixed(1)}');
+    print('${teamB.teamName} Power: ${teamBScore.toStringAsFixed(1)}');
+
+    if (teamAScore > teamBScore) {
+      print('Winner: ${teamA.teamName}');
+    } else if (teamBScore > teamAScore) {
+      print('Winner: ${teamB.teamName}');
     } else {
-      _result = 'Draw';
+      print('It\'s a Draw!');
     }
-  }
-
-  // Return the outcome
-  String matchOutcome() {
-    if (_result.isEmpty) simulationLogic();
-    return _result;
   }
 }

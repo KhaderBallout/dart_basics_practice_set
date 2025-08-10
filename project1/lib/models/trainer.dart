@@ -13,7 +13,7 @@ class Trainer extends Person {
     required strategy,
     bool? motivation,
   }) : _strategy = strategy,
-       _experience = Random().nextInt(30) + 69,
+       _experience = _calculateExperience(age),
        _motivation = motivation ?? false,
        super(name: name, age: age);
 
@@ -33,6 +33,10 @@ class Trainer extends Person {
 
   set motivation(bool value) {
     _motivation = value;
+  }
+
+  static double _calculateExperience(int experience) {
+    return Random().nextInt(experience) + 79;
   }
 
   @override

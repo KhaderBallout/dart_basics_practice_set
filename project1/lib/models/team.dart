@@ -6,6 +6,14 @@ class Team {
   Trainer _trainer;
   List<Player> _playerList;
   int _teamReputation;
+  static Map<String,int> strategyMatrix = {
+  'Offensive': 7,
+  'Defensive': 3,
+  'Balanced': 5,
+  'Counter-Attack': 5,
+  'Pressing': 6,
+  'Park-the-Bus': 4,
+  };
 
   Team({
     required String teamName,
@@ -69,8 +77,28 @@ class Team {
         return true;
       }
     }
-
     print('Player with name "$name" not found.');
     return false;
+  }
+
+  double totalTeamPower(){
+    double totalTeamPower = 0.0;
+    for (var player in _playerList) {
+      double playerScore = player.power + player.stamina;
+
+      if (player.injury) {
+        playerScore -= 20;
+      }
+      totalTeamPower += playerScore;
+    }
+    if (trainer.motivation){
+      totalTeamPower += 20;
+    }
+    if (strategyMatrix.containsKey(trainer.strategy)) {
+      totalTeamPower += strategyMatrix[trainer.strategy]!;
+    }
+    totalTeamPower += trainer.experience ;
+
+  return totalTeamPower;
   }
 }

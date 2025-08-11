@@ -70,3 +70,11 @@ For each team:
 
 ## Create the Stadium
 - Input **stadium name**, **location**, and **capacity**.
+
+## UML Diagram
+
+![UML Diagram](assets/oop_uml.svg)
+
+## Output Example
+
+![Alt text](assets/result.png)

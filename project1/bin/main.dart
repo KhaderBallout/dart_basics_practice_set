@@ -24,21 +24,33 @@ String getValidName(String label) {
   return input;
 }
 
-int getValidAge() {
+int getValidAge(String label) {
   String? input;
   int? age;
 
-  do {
-    stdout.write('Please enter your age (more than 18 and less than 40): ');
+  while (true) {
+    if (label.toLowerCase() == 'player') {
+      print('Note: Age must be between 18 and 40 for Player.');
+    } else {
+      print('Note: Age must be between 30 and 65 for Trainer and Referee.');
+    }
+
+    stdout.write('Please enter $label age: ');
     input = stdin.readLineSync();
     age = int.tryParse(input ?? '');
 
-    if (age == null || age <= 18 || age >= 40) {
-      print('Invalid age! Please enter a number more than 18 and less than 40.');
+    if (label.toLowerCase() == 'player') {
+      if (age != null && age >= 18 && age <= 40) {
+        return age;
+      }
+    } else {
+      if (age != null && age >= 30 && age <= 65) {
+        return age;
+      }
     }
-  } while (age == null || age <= 18 || age >= 40);
 
-  return age;
+    print('Invalid age! Please try again.\n');
+  }
 }
 
 String getValidPosition() {
@@ -69,7 +81,7 @@ int getValidJerseyNumber() {
     if (number == null || number < 1 || number > 25) {
       print('Invalid jersey number! Please enter a number between 1 and 25.');
     }
-  } while (number == null || number <= 1 || number >= 25);
+  } while (number == null || number < 1 || number > 25);
 
   return number;
 }
@@ -112,7 +124,7 @@ bool getBooleanInput(String message) {
 
 Player createPlayer() {
   String name = getValidName('Player');
-  int age = getValidAge();
+  int age = getValidAge('Player');
   String position = getValidPosition();
   int jersey = getValidJerseyNumber();
   return Player(name: name, age: age, position: position, jerseyNumber: jersey);
@@ -121,7 +133,7 @@ Player createPlayer() {
 Team createTeam() {
   String teamName = getValidName('Team');
   String trainerName = getValidName('Trainer');
-  int trainerAge = getValidAge();
+  int trainerAge = getValidAge('Trainer');
   String strategy = getValidStrategy();
   bool motivation = getBooleanInput('Is the trainer motivated? (true/false)');
   Trainer trainer = Trainer(name: trainerName, age: trainerAge, strategy: strategy, motivation: motivation);
@@ -150,7 +162,7 @@ Stadium createStadium() {
 
 Referee createReferee() {
   String name = getValidName('Referee');
-  int age = int.parse(prompt('Referee age: '));
+  int age = getValidAge('Referee');
   double experience = Random().nextDouble() * 10 + 5;
   bool bribed = getBooleanInput('Is the referee bribed with the first team? (true/false) ');
   return Referee(name: name, age: age, experience: experience, bribed: bribed);

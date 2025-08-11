@@ -66,7 +66,7 @@ int getValidJerseyNumber() {
     input = stdin.readLineSync();
     number = int.tryParse(input ?? '');
 
-    if (number == null || number <= 1 || number >= 25) {
+    if (number == null || number < 1 || number > 25) {
       print('Invalid jersey number! Please enter a number between 1 and 25.');
     }
   } while (number == null || number <= 1 || number >= 25);
@@ -133,6 +133,11 @@ Team createTeam() {
     players.add(createPlayer());
   }
 
+  bool hasStadium = getBooleanInput('Is the team has a stadium? (true/false)');
+  if (hasStadium){
+    Stadium teamStadium = createStadium();
+    return Team(teamName: teamName, trainer: trainer, playerList: players, teamStadium: teamStadium);
+  }
   return Team(teamName: teamName, trainer: trainer, playerList: players);
 }
 
@@ -153,9 +158,13 @@ Referee createReferee() {
 
 void main() {
   print('--- FOOTBALL MATCH SIMULATION ---');
+  print('--- First Team creation process ---');
   Team team1 = createTeam();
+  print('--- Second Team creation process ---');
   Team team2 = createTeam();
+  print('--- Game Stadium creation process ---');
   Stadium stadium = createStadium();
+  print('--- Game Referee creation process ---');
   Referee referee = createReferee();
   Game game = Game(teamList: [team1, team2], gameReferee: referee, gameStadium: stadium);
 

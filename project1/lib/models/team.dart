@@ -1,9 +1,11 @@
 import 'package:project1/models/player.dart';
+import 'package:project1/models/stadium.dart';
 import 'package:project1/models/trainer.dart';
 
 class Team {
   String _teamName;
   Trainer _trainer;
+  Stadium _teamStadium;
   List<Player> _playerList;
   int _teamReputation;
   static Map<String,int> strategyMatrix = {
@@ -20,9 +22,11 @@ class Team {
     required Trainer trainer,
     required List<Player> playerList,
     int? teamReputation,
+    Stadium? teamStadium
   })  : _teamName = teamName,
         _trainer = trainer,
         _playerList = playerList,
+        _teamStadium = teamStadium ?? Stadium(stadiumName: "No Stadium",location: "Unknown",capacity: 0),
         _teamReputation = teamReputation ?? 0;
 
   // Getters
@@ -30,6 +34,7 @@ class Team {
   Trainer get trainer => _trainer;
   List<Player> get playerList => _playerList;
   int get teamReputation => _teamReputation;
+  Stadium get teamStadium => _teamStadium;
 
   // Setters
   set teamName(String value) {
@@ -48,31 +53,38 @@ class Team {
     _teamReputation = value;
   }
 
+  set teamStadium(Stadium value){
+    _teamStadium = value;
+  }
+
   @override
   String toString() {
+    if (teamStadium.stadiumName == 'No Stadium'){
+      return 'Team(teamName: $_teamName, trainer: $_trainer, players: $_playerList, reputation: $_teamReputation, stadium info: ${teamStadium.toString()})';
+    }
     return 'Team(teamName: $_teamName, trainer: $_trainer, players: $_playerList, reputation: $_teamReputation)';
   }
 
   void printPlayerDetails() {
-    if (_playerList.isEmpty) {
+    if (playerList.isEmpty) {
       print('No players in the team.');
       return;
     }
 
-    for (var player in _playerList) {
+    for (var player in playerList) {
       print(player.toString());
       }
     }
 
   void addPlayer(Player newPlayer) {
-    _playerList.add(newPlayer);
+    playerList.add(newPlayer);
     print('${newPlayer.name} has been added to $_teamName.');
   }
 
   bool removePlayerByName(String name) {
-    for (int i = 0; i < _playerList.length; i++) {
-      if (_playerList[i].name.toLowerCase() == name.toLowerCase()) {
-        final removedPlayer = _playerList.removeAt(i);
+    for (int i = 0; i < playerList.length; i++) {
+      if (playerList[i].name.toLowerCase() == name.toLowerCase()) {
+        final removedPlayer = playerList.removeAt(i);
         print('${removedPlayer.name} has been removed from $_teamName.');
         return true;
       }

@@ -1,6 +1,7 @@
 import 'package:project1/models/team.dart';
 import 'package:project1/models/referee.dart';
 import 'package:project1/models/stadium.dart';
+import 'dart:math';
 
 class Game {
   List<Team> _teamList;
@@ -42,8 +43,14 @@ class Game {
     double teamBScore = teamB.totalTeamPower();
 
     if(gameReferee.bribed){
-      teamAScore = teamAScore + 20; 
+      teamAScore = teamAScore + 20;
     }
+
+    teamAScore += (gameStadium.stadiumName == teamA.teamStadium.stadiumName) ? 50 : 0;
+    teamBScore += (gameStadium.stadiumName == teamB.teamStadium.stadiumName) ? 50 : 0;
+
+    teamAScore += getRandomBetween30And50();
+    teamBScore += getRandomBetween30And50();
 
     print('--- MATCH REPORT ---');
     print('Stadium: ${gameStadium.stadiumName}');
@@ -64,4 +71,9 @@ class Game {
       print('It\'s a Draw!');
     }
   }
+
+  double getRandomBetween30And50() {
+  final random = Random();
+  return 30 + random.nextDouble() * 20; // nextInt(21) gives 0 to 20
+}
 }

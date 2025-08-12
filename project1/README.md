@@ -73,7 +73,7 @@ For each team:
 
 ## UML Diagram
 
-![UML Diagram](assets/oop_uml.svg)
+![UML Diagram](assets/oop-uml.svg)
 
 ## Output Example
 
